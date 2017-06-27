@@ -42,5 +42,16 @@ class Apto extends CI_Controller {
 		$this->apto_model->delete_by_id($id);
 		echo json_encode(array("status" => TRUE));
 	}
+
+	public function gerar_receita_extra(){
+		$this->load->model("receita_model");
+		$rec_data_vencimento = $this->input->post('rec_data_vencimento');
+		$txc_id = $this->input->post('txc_id');
+		$apto_id = $this->input->post('apt_id');
+		$insert = $this->receita_model->cadastrarReceitaExtra($rec_data_vencimento, $txc_id, $apto_id);
+		echo json_encode(array("status" => TRUE));
+		$this->session->set_flashdata('mensagem',"Receita Cadastrada com Sucesso");
+
+	}
     
 }

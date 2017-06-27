@@ -46,5 +46,9 @@ class Taxa extends CI_Controller {
 		$this->taxa_model->delete_by_id($id);
 		echo json_encode(array("status" => TRUE));
 	}
+	public function lista_taxa_json(){
+        $data = $this->taxa_model->listarExtra();
+        echo json_encode($data);
+    }
     
 }

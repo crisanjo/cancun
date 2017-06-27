@@ -4,8 +4,8 @@ class Taxa_model extends CI_Model{
     public function listar(){
         $this->db->select("txc_id, txc_descricao, txc_valor, CASE WHEN txc_qtd=-1 THEN 'FIXO' ELSE txc_qtd ||'' END as txc_qtd, CASE WHEN txc_status=true THEN 'ATIVO' ELSE 'INATIVO' END as txc_status, CASE WHEN txc_antecipado=true THEN 'SIM' ELSE 'NÃO' END as txc_antecipado, txc_create, txc_update");
         $this->db->from("taxa_condominio");
-        $aptos = $this->db->get()->result();
-        return $aptos;
+        $taxas = $this->db->get()->result();
+        return $taxas;
     }
 
     public function cadastrar($taxa){
@@ -16,7 +16,7 @@ class Taxa_model extends CI_Model{
     }
 
     public function getTaxa($id){
-        $this->db->select("txc_id, txc_descricao, txc_valor, txc_qtd, CASE WHEN txc_status=true THEN '1' ELSE '0' END as txc_status, CASE WHEN txc_antecipado=true THEN '1' ELSE '0' END as txc_antecipado, txc_create, txc_update");
+        $this->db->select("txc_id, txc_descricao, txc_valor, txc_qtd, CASE WHEN txc_status=true THEN '1' ELSE '0' END as txc_status, CASE WHEN txc_antecipado=true THEN '1' ELSE '0' END as txc_antecipado, txc_create, txc_update, tgo_id");
         $this->db->from("taxa_condominio");
         $this->db->where("taxa_condominio.txc_id", $id);
         $taxa = $this->db->get()->row();
@@ -31,6 +31,13 @@ class Taxa_model extends CI_Model{
     public function delete_by_id($id){
         $this->db->where('txc_id', $id);
         $this->db->delete('taxa_condominio');
+    }
+
+    public function listarExtra(){
+        $this->db->where('txc_qtd<>-1');
+        $this->db->from("taxa_condominio");
+        $taxas = $this->db->get()->result();
+        return $taxas;
     }
    
 }

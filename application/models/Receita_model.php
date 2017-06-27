@@ -77,9 +77,40 @@ class Receita_model extends CI_Model{
 
         return $num;
     }
-     public function pagamento($where, $data){
+    public function pagamento($where, $data){
         $this->db->update("receita", $data, $where);
         return $this->db->affected_rows();
+    }
+
+    public function cadastrarReceitaExtra($rec_data_vencimento, $txc_id, $apto_id){
+        if(!isset($rec_data_vencimento))
+          return false;
+        $this->load->model("taxa_model");
+        $id_boleto = null;
+        $valor = 0.00;
+        $contador = 0;
+        $taxa = $this->taxa_model->getTaxa($txc_id);
+
+        $receita_id = $this->getReceita($rec_data_vencimento, $taxa->tgo_id, $apto_id);
+        if(!$receita_id){
+            
+            $contador = $this->getNumeroParcela($apto_id, $txc_id);
+            $qtdParc = $taxa->txc_qtd;
+            
+            if($qtdParc <> -1 OR $qtdParc > $contador){
+                $receita = array('rec_valor' => 0.00, 'apt_id' => $apto_id, 'rec_data_vencimento' => $rec_data_vencimento, 'tgo_id' => $taxa->tgo_id);
+                $this->db->insert('receita', $receita);
+                $id_receita = $this->db->insert_id();
+
+                $boleto = array('txc_id' =>$taxa->txc_id, 'rec_id' => $id_receita);
+                $this->db->insert('boleto', $boleto);
+                $id_boleto = $this->db->insert_id();
+                $data = array('rec_valor' => $taxa->txc_valor);
+                $this->receita_update(array('rec_id' =>$id_receita), $data);
+            }   
+        }
+
+        return $id_boleto;
     }
    
 }
