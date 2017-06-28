@@ -7,12 +7,19 @@
     <title>Lista de Taxas</title>
     <link href="<?php echo base_url('assests/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assests/datatables/css/dataTables.bootstrap.css')?>" rel="stylesheet">
+    <script src="<?php echo base_url('assests/jquery/jquery-3.2.1.min.js')?>"></script>
+    <script src="<?php echo base_url('assests/bootstrap/js/bootstrap.min.js')?>"></script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script type="text/javascript">
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
   </head>
   <body>
  
@@ -21,7 +28,7 @@
     <h1>Lista de Taxas</h1>
 </center>
     <br />
-    <button class="btn btn-success" onclick="add_taxa()"><i class="glyphicon glyphicon-plus"></i> Add Taxa</button>
+    <button class="btn btn-success" onclick="add_taxa()" data-toggle="tooltip" title="Adicionar"><i class="glyphicon glyphicon-plus"></i> Add Taxa</button>
     <br />
     <br />
     <table id="table_id" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -46,8 +53,8 @@
                 <td><?php echo $taxa->txc_status;?></td>
                 <td><?php echo $taxa->txc_antecipado;?></td>
 								<td>
-									<button class="btn btn-warning" onclick="edit_taxa(<?php echo $taxa->txc_id;?>)"><i class="glyphicon glyphicon-pencil"></i></button>
-									<button class="btn btn-danger" onclick="delete_taxa(<?php echo $taxa->txc_id;?>)"><i class="glyphicon glyphicon-remove"></i></button>
+									<button class="btn btn-warning" onclick="edit_taxa(<?php echo $taxa->txc_id;?>)" data-toggle="tooltip" title="Editar"><i class="glyphicon glyphicon-pencil"></i></button>
+									<button class="btn btn-danger" onclick="delete_taxa(<?php echo $taxa->txc_id;?>)" data-toggle="tooltip" title="Deletar"><i class="glyphicon glyphicon-remove"></i></button>
 								</td>
 				      </tr>
 				     <?php }?>
@@ -60,12 +67,14 @@
   <script src="<?php echo base_url('assests/bootstrap/js/bootstrap.min.js')?>"></script>
   <script src="<?php echo base_url('assests/datatables/js/jquery.dataTables.min.js')?>"></script>
   <script src="<?php echo base_url('assests/datatables/js/dataTables.bootstrap.js')?>"></script>
- 
- 
+  <script src="<?php echo base_url('assests/jquery/jquery.maskMoney.min.js')?>" type="text/javascript"></script>
   <script type="text/javascript">
-  $(document).ready( function () {
-      $('#table_id').DataTable();
-  } );
+    $(document).ready( function () {
+        $('#table_id').DataTable();
+       
+        $("#txc_valor").maskMoney({prefix:'R$ ', allowNegative: true, thousands:'.', decimal:'.', affixesStay: false});
+    });
+
     var save_method; //for save method string
     var table;
  
@@ -116,15 +125,21 @@
             type: "POST",
             data: $('#form').serialize(),
             dataType: "JSON",
-            success: function(data)
-            {
-               //if success close modal and reload ajax table
-               $('#modal_form').modal('hide');
-              location.reload();// for reload a page
+            success: function(data){
+              if(data.status) {
+                $('#modal_form').modal('hide');
+                location.reload();// for reload a page
+              }else{
+                  for (var i = 0; i < data.inputerror.length; i++) {
+                      $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                      $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+                  }
+              }
+             
             },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error adding / update data');
+            error: function (jqXHR, textStatus, errorThrown){
+              console.log(jqXHR);
+              alert('Error adding / update data');
             }
         });
     }
@@ -148,7 +163,7 @@
  
       }
     }
- 
+
   </script>
  
   <!-- Bootstrap modal -->
@@ -167,18 +182,21 @@
               <label class="control-label col-md-3">Descrição</label>
               <div class="col-md-9">
                 <input name="txc_descricao" placeholder="Descrição da Taxa" class="form-control" type="text">
+                <span class="help-block"></span>
               </div>
             </div>
             <div class="form-group">
               <label class="control-label col-md-3">Valor</label>
               <div class="col-md-9">
-                <input name="txc_valor" placeholder="Valor da Taxa" class="form-control" type="text">
+                <input name="txc_valor" placeholder="Valor da Taxa" id="txc_valor" class="form-control" type="text">
+                <span class="help-block"></span>
               </div>
             </div>
             <div class="form-group">
               <label class="control-label col-md-3">Qtd de Parcelas</label>
               <div class="col-md-9">
                 <input name="txc_qtd" placeholder="-1 é fixo" class="form-control" type="text">
+                <span class="help-block"></span>
               </div>
             </div>
             <div class="form-group">

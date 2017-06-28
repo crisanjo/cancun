@@ -7,12 +7,19 @@
     <title>Lista de Despesas</title>
     <link href="<?php echo base_url('assests/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">
     <link href="<?php echo base_url('assests/datatables/css/dataTables.bootstrap.css')?>" rel="stylesheet">
+    <script src="<?php echo base_url('assests/jquery/jquery-3.2.1.min.js')?>"></script>
+    <script src="<?php echo base_url('assests/bootstrap/js/bootstrap.min.js')?>"></script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script type="text/javascript">
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
   </head>
   <body>
  
@@ -20,8 +27,8 @@
   <div class="container">
     <h1>Lista de Despesas</h1>
 </center>
-    <button class="btn btn-success" onclick="add_conta()"><i class="glyphicon glyphicon-plus"></i> Add Despesa</button>
-    <button class="btn btn-success" onclick="gerar_conta()"><i class="glyphicon glyphicon-plus"></i>Gerar Despesa</button>
+    <button class="btn btn-success" onclick="add_conta()" data-toggle="tooltip" title="Adicionar"><i class="glyphicon glyphicon-plus"></i> Add Despesa</button>
+    <button class="btn btn-success" onclick="gerar_conta()" data-toggle="tooltip" title="Gerar Despesas"><i class="glyphicon glyphicon-plus"></i>Gerar Despesa</button>
     <br />
     <br />
     <table id="table_id" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -46,8 +53,8 @@
                 <td><?php echo $conta->con_fixo;?></td>
                 <td><?php echo $conta->con_status;?></td>
 								<td>
-									<button class="btn btn-warning" onclick="edit_conta(<?php echo $conta->con_id;?>)"><i class="glyphicon glyphicon-pencil"></i></button>
-									<button class="btn btn-danger" onclick="delete_conta(<?php echo $conta->con_id;?>)"><i class="glyphicon glyphicon-remove"></i></button>
+									<button class="btn btn-warning" onclick="edit_conta(<?php echo $conta->con_id;?>)" data-toggle="tooltip" title="Editar"><i class="glyphicon glyphicon-pencil"></i></button>
+									<button class="btn btn-danger" onclick="delete_conta(<?php echo $conta->con_id;?>)" data-toggle="tooltip" title="Deletar"><i class="glyphicon glyphicon-remove"></i></button>
 								</td>
 				      </tr>
 				     <?php }?>
@@ -60,11 +67,12 @@
   <script src="<?php echo base_url('assests/bootstrap/js/bootstrap.min.js')?>"></script>
   <script src="<?php echo base_url('assests/datatables/js/jquery.dataTables.min.js')?>"></script>
   <script src="<?php echo base_url('assests/datatables/js/dataTables.bootstrap.js')?>"></script>
- 
+  <script src="<?php echo base_url('assests/jquery/jquery.maskMoney.min.js')?>" type="text/javascript"></script>
  
   <script type="text/javascript">
   $(document).ready( function () {
       $('#table_id').DataTable();
+      $("#con_valor").maskMoney({prefix:'R$ ', allowNegative: true, thousands:'.', decimal:'.', affixesStay: false});
 
       $.ajax({
         type: "get",
@@ -188,9 +196,16 @@
             data: $('#form').serialize(),
             dataType: "JSON",
             success: function(data){
-               //if success close modal and reload ajax table
-               $('#modal_form').modal('hide');
-              location.reload();// for reload a page
+              if(data.status) {
+                $('#modal_form').modal('hide');
+                location.reload();// for reload a page
+              }else{
+                  for (var i = 0; i < data.inputerror.length; i++) {
+                      $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                      $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+                  }
+              }
+              
             },
             error: function (jqXHR, textStatus, errorThrown){
               console.log(jqXHR);
@@ -271,13 +286,15 @@
             <div class="form-group">
               <label class="control-label col-md-3">Valor</label>
               <div class="col-md-9">
-                <input name="con_valor" placeholder="Valor da conta" class="form-control" type="text">
+                <input name="con_valor" id="con_valor" placeholder="Valor da conta" class="form-control" type="text">
+                <span class="help-block"></span>
               </div>
             </div>
             <div class="form-group">
               <label class="control-label col-md-3">Dt de Vencimento</label>
               <div class="col-md-9">
                 <input name="con_data" placeholder="Data de Vencimento" class="form-control" type="date">
+                <span class="help-block"></span>
               </div>
             </div>
             
@@ -309,6 +326,7 @@
               <label class="control-label col-md-3">Obs</label>
               <div class="col-md-9">
                 <textarea name="con_obs" rows="10" cols="50" id="con_obs" class="form-control"></textarea>
+                <span class="help-block"></span>
               </div>
             </div>
 

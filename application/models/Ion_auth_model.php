@@ -19,8 +19,7 @@
 *
 */
 
-class Ion_auth_model extends CI_Model
-{
+class Ion_auth_model extends CI_Model{
 	/**
 	 * Holds an array of tables used
 	 *
@@ -161,8 +160,7 @@ class Ion_auth_model extends CI_Model
 	 **/
 	protected $_cache_groups = array();
 
-	public function __construct()
-	{
+	public function __construct(){
 		parent::__construct();
 		$this->load->database();
 		$this->config->load('ion_auth', TRUE);
@@ -892,7 +890,7 @@ class Ion_auth_model extends CI_Model
 			return FALSE;
 		}
 
-		// check if the default set in config exists in database
+		// Verifique se o configurado padrão na configuração existe no banco de dados
 		$query = $this->db->get_where($this->tables['groups'],array('name' => $this->config->item('default_group', 'ion_auth')),1)->row();
 		if( !isset($query->id) && empty($groups) )
 		{
@@ -960,12 +958,10 @@ class Ion_auth_model extends CI_Model
 	 * @return bool
 	 * @author Mathew
 	 **/
-	public function login($identity, $password, $remember=FALSE)
-	{
+	public function login($identity, $password, $remember=FALSE){
 		$this->trigger_events('pre_login');
 
-		if (empty($identity) || empty($password))
-		{
+		if (empty($identity) || empty($password)){
 			$this->set_error('login_unsuccessful');
 			return FALSE;
 		}
@@ -978,9 +974,8 @@ class Ion_auth_model extends CI_Model
 		    			  ->order_by('id', 'desc')
 		                  ->get($this->tables['users']);
 
-		if($this->is_time_locked_out($identity))
-		{
-			// Hash something anyway, just to take up time
+		if($this->is_time_locked_out($identity)){
+			// Hash algo de qualquer maneira, apenas para levar tempo
 			$this->hash_password($password);
 
 			$this->trigger_events('post_login_unsuccessful');
@@ -989,16 +984,13 @@ class Ion_auth_model extends CI_Model
 			return FALSE;
 		}
 
-		if ($query->num_rows() === 1)
-		{
+		if ($query->num_rows() === 1){
 			$user = $query->row();
 
 			$password = $this->hash_password_db($user->id, $password);
 
-			if ($password === TRUE)
-			{
-				if ($user->active == 0)
-				{
+			if ($password === TRUE){
+				if ($user->active == 0){
 					$this->trigger_events('post_login_unsuccessful');
 					$this->set_error('login_unsuccessful_not_active');
 
@@ -1006,7 +998,6 @@ class Ion_auth_model extends CI_Model
 				}
 
 				$this->set_session($user);
-
 				$this->update_last_login($user->id);
 
 				$this->clear_login_attempts($identity);

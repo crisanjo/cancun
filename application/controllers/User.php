@@ -10,8 +10,18 @@ class User extends CI_Controller {
     }
     
     public function lista_user_json(){
-        $data = $this->user_model->listar();
-        echo json_encode($data);
+    	if (!$this->ion_auth->logged_in()){
+			$this->session->set_flashdata('message', 'Necessário está logado para ter acesso a essa página');
+			redirect('auth/login');
+		}else{
+			if (!$this->ion_auth->is_admin()){
+				$this->session->set_flashdata('message', 'Você deve ser um administrador para visualizar esta página');
+				redirect('welcome/index');
+			}else{
+		        $data = $this->user_model->listar();
+		        echo json_encode($data);
+		    }
+		}        
     }
     
 }
