@@ -6,7 +6,7 @@ class TaxaGrupo extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->helper('url');
-		$this->load->model("taxagrupo_model");
+		$this->load->model("TaxaGrupo_model");
 	}
 	public function index(){
 		if (!$this->ion_auth->logged_in()){
@@ -18,7 +18,7 @@ class TaxaGrupo extends CI_Controller {
 				redirect('welcome/index');
 			}else{
 				//$this->template->load('orion/template', 'orion/index.html');
-				$data['taxas']=$this->taxagrupo_model->listar();
+				$data['taxas']=$this->TaxaGrupo_model->listar();
 				$this->load->view('taxagrupo/index',$data);
 			}
 		}		

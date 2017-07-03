@@ -1,21 +1,43 @@
-<h1><?php echo lang('create_user_heading');?></h1>
-<p><?php echo lang('create_user_subheading');?></p>
+<?php $this->load->view('template/topo'); ?>
 
-<div id="infoMessage"><?php echo $message;?></div>
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="page-header"><?php echo lang('create_user_heading');?></h1>
 
-<?php echo form_open("auth/create_user");?>
+    <div class="row placeholders">
+    <!-- NÃO MEXER DAQUI PARA CIMA -->
 
-      <p>
-            <?php echo lang('create_user_fname_label', 'first_name');?> <br />
-            <?php echo form_input($first_name);?>
-      </p>
-
-      <p>
-            <?php echo lang('create_user_lname_label', 'last_name');?> <br />
-            <?php echo form_input($last_name);?>
-      </p>
+      <p><?php echo lang('create_user_subheading');?></p>
       
-      <?php
+      <?php if($message) :?>
+        <div class="alert alert-info" id="infoMessage"><?php echo $message;?></div>
+      <?php endif;?>
+
+      <?php 
+      echo form_open("auth/create_user", array("class" => "form-signin"));
+      
+      echo form_label("Primeiro nome","first_name", array("class" => "sr-only"));
+      echo form_input(array(
+        "name" => "first_name",
+        "id" => "first_name",
+        "type" => "text",
+        "class" => "form-control",
+        "placeholder" => "Primeiro nome",
+        "autofocus" => "true",
+        "required" => "true"
+      ));
+      echo "<br />";
+
+      echo form_label("Sobrenome","last_name", array("class" => "sr-only"));
+      echo form_input(array(
+        "name" => "last_name",
+        "id" => "last_name",
+        "type" => "text",
+        "class" => "form-control",
+        "placeholder" => "Sobrenome",
+        "required" => "true"
+      ));
+      echo "<br />";
+      
       if($identity_column!=='email') {
           echo '<p>';
           echo lang('create_user_identity_label', 'identity');
@@ -24,29 +46,66 @@
           echo form_input($identity);
           echo '</p>';
       }
+
+      echo form_label("E-mail","email", array("class" => "sr-only"));
+      echo form_input(array(
+        "name" => "email",
+        "id" => "email",
+        "type" => "text",
+        "class" => "form-control",
+        "placeholder" => "E-mail",
+        "required" => "true"
+      ));
+      echo "<br />";
+
+      echo form_label("Telefone","phone", array("class" => "sr-only"));
+      echo form_input(array(
+        "name" => "phone",
+        "id" => "phone",
+        "type" => "text",
+        "class" => "form-control",
+        "placeholder" => "Telefone",
+        "required" => "true"
+      ));
+      echo "<br />";
+
+      echo form_label("Senha","password", array("class" => "sr-only"));
+      echo form_input(array(
+        "name" => "password",
+        "id" => "password",
+        "type" => "password",
+        "class" => "form-control",
+        "placeholder" => "Senha",
+        "required" => "true"
+      ));
+      echo "<br />";
+
+      echo form_label("Confirmar Senha","password_confirm", array("class" => "sr-only"));
+      echo form_input(array(
+        "name" => "password_confirm",
+        "id" => "password_confirm",
+        "type" => "password",
+        "class" => "form-control",
+        "placeholder" => "Confirmar Senha",
+        "required" => "true"
+      ));
+      echo "<br />";
+      
+      echo form_submit(array(
+        "class" => "btn btn-lg btn-primary btn-block",
+        "name" => "submit",
+        "value" => "Criar Usuário",
+        "type" => "submit"
+      ));
+      
+      echo form_close();
       ?>
 
-      <p>
-            <?php echo lang('create_user_email_label', 'email');?> <br />
-            <?php echo form_input($email);?>
-      </p>
 
-      <p>
-            <?php echo lang('create_user_phone_label', 'phone');?> <br />
-            <?php echo form_input($phone);?>
-      </p>
+<!-- NÃO MEXER DAQUI PARA BAIXO -->
+                    </div>
+                </div>
+            </div>
+        </div>
 
-      <p>
-            <?php echo lang('create_user_password_label', 'password');?> <br />
-            <?php echo form_input($password);?>
-      </p>
-
-      <p>
-            <?php echo lang('create_user_password_confirm_label', 'password_confirm');?> <br />
-            <?php echo form_input($password_confirm);?>
-      </p>
-
-
-      <p><?php echo form_submit('submit', lang('create_user_submit_btn'));?></p>
-
-<?php echo form_close();?>
+<?php $this->load->view('template/rodape'); ?>

@@ -1,44 +1,23 @@
-<!DOCTYPE html>
-<html>
-    <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lista de Receitas</title>
-    <link href="<?php echo base_url('assests/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">
-    <link href="<?php echo base_url('assests/datatables/css/dataTables.bootstrap.css')?>" rel="stylesheet">
-    <script src="<?php echo base_url('assests/jquery/jquery-3.2.1.min.js')?>"></script>
-    <script src="<?php echo base_url('assests/bootstrap/js/bootstrap.min.js')?>"></script>
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <script type="text/javascript">
-      $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-      })
-    </script>
-  </head>
-  <body>
- 
-  <div class="container">
-    <h1>Lista com Receitas</h1>
-</center>
+<?php $this->load->view('template/topo'); ?>
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="page-header">Lista com Receitas</h1>
+
+    <div class="row placeholders">
+    <!-- NÃO MEXER DAQUI PARA CIMA -->
+
+
     <button class="btn btn-success" onclick="add_receita()"><i class="glyphicon glyphicon-plus" data-toggle="tooltip" title="Adicionar"></i> Add Receita</button>
-    <br />
-    <br />
-    <table id="table_id" class="table table-striped table-bordered" cellspacing="0" width="100%">
+    <table id="table_id" class="table table-striped table-bordered">
       <thead>
         <tr>
-					<th>MORADOR</th>
-					<th>APTO</th>
-					<th>VALOR</th>
-					<th>DATA VENCIMENTO</th>
-          <th>GRUPO</th>
-          <th>SITUAÇÃO</th>
-          <th style="width:125px;">Ações</p></th>
+					<th>Morador</th>
+					<th>Apto</th>
+					<th>Valor</th>
+					<th>Dt Vencimento</th>
+          <th>Grupo</th>
+          <th>Situação</th>
+          <th>Ações</th>
         </tr>
       </thead>
       <tbody>

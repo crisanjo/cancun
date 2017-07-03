@@ -1,46 +1,24 @@
-<!DOCTYPE html>
-<html>
-    <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lista de Taxas</title>
-    <link href="<?php echo base_url('assests/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">
-    <link href="<?php echo base_url('assests/datatables/css/dataTables.bootstrap.css')?>" rel="stylesheet">
-    <script src="<?php echo base_url('assests/jquery/jquery-3.2.1.min.js')?>"></script>
-    <script src="<?php echo base_url('assests/bootstrap/js/bootstrap.min.js')?>"></script>
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <script type="text/javascript">
-      $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-      })
-    </script>
-  </head>
-  <body>
- 
- 
-  <div class="container">
-    <h1>Lista de Taxas</h1>
-</center>
-    <br />
+<?php $this->load->view('template/topo'); ?>
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="page-header">Lista de Taxas</h1>
+
+    <div class="row placeholders">
+    <!-- NÃO MEXER DAQUI PARA CIMA -->
+
+
+    
     <button class="btn btn-success" onclick="add_taxa()" data-toggle="tooltip" title="Adicionar"><i class="glyphicon glyphicon-plus"></i> Add Taxa</button>
-    <br />
-    <br />
-    <table id="table_id" class="table table-striped table-bordered" cellspacing="0" width="100%">
+    <table id="table_id" class="table table-striped table-bordered">
       <thead>
         <tr>
-					<th>ID</th>
-					<th>DESCRIÇÃO</th>
-					<th>VALOR</th>
-					<th>QTD DE PARCELAS</th>
-          <th>STATUS</th>
-          <th>ANTECIPADO</th>
-          <th style="width:125px;">Ações</p></th>
+					<th>Id</th>
+					<th>Descrição</th>
+					<th>Valor</th>
+					<th>Qtd de Parcelas</th>
+          <th>Status</th>
+          <th>Antecipado</th>
+          <th>Ações</th>
         </tr>
       </thead>
       <tbody>
