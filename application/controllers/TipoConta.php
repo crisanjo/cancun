@@ -6,7 +6,7 @@ class TipoConta extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->helper('url');
-		$this->load->model("TipoConta_model");
+		$this->load->model("tipoconta_model");
 	}
 	public function index(){
 		if (!$this->ion_auth->logged_in()){
@@ -18,7 +18,7 @@ class TipoConta extends CI_Controller {
 				redirect('welcome/index');
 			}else{
 				//$this->template->load('orion/template', 'orion/index.html');
-				$data['tipocontas']=$this->TipoConta_model->listar();
+				$data['tipocontas']=$this->tipoconta_model->listar();
 				$this->load->view('tipoconta/index',$data);
 			}
 		}		

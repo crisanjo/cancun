@@ -4,7 +4,7 @@
         <li><a href="Receita">Receitas</a></li>
         <li><a href="Conta">Despesas</a></li>
         <li><a href="Taxa">Taxa de Condomínio</a></li>
-        <li><a href="TipoConta">Tipos de Despesas</a></li>
+        <li><a href="TipoConta">Categorias</a></li>
         <li><a href="Empresa">Empresas</a></li>
         <li><a href="Apto">Apartamentos</a></li>
         <li><a href="Auth">Usuários</a></li>

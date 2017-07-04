@@ -1,3 +1,10 @@
+<?php $this->load->view('template/topo'); ?>
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="page-header"><?php echo lang('create_group_heading');?></h1>
+
+    <div class="row placeholders">
+    <!-- NÃO MEXER DAQUI PARA CIMA -->
 <h1><?php echo lang('deactivate_heading');?></h1>
 <p><?php echo sprintf(lang('deactivate_subheading'), $user->username);?></p>
 
@@ -16,3 +23,10 @@
   <p><?php echo form_submit('submit', lang('deactivate_submit_btn'));?></p>
 
 <?php echo form_close();?>
+<!-- NÃO MEXER DAQUI PARA BAIXO -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<?php $this->load->view('template/rodape'); ?>
