@@ -72,6 +72,7 @@ class Receita extends CI_Controller {
 			}
 		}	 	
 	}
+	
 	private function _validate(){
         $data = array();
         $data['error_string'] = array();

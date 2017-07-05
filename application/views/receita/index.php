@@ -8,6 +8,7 @@
 
 
     <button class="btn btn-success" onclick="add_receita()"><i class="glyphicon glyphicon-plus" data-toggle="tooltip" title="Adicionar"></i> Add Receita</button>
+    <a href="relatorio" class="btn btn-success" >Relatório</a>
     <table id="table_id" class="table table-striped table-bordered">
       <thead>
         <tr>
@@ -30,7 +31,7 @@
                 <td><?php echo $receita->tgo_descricao;?></td>
                 <td><?php echo $receita->rec_status;?></td>
 								<td>
-									<button class="btn btn-success" onclick="edit_receita(<?php echo $receita->rec_id;?>)" data-toggle="tooltip" title="Editar"><i class="glyphicon glyphicon-usd"></i></button>
+									<button class="btn btn-success" onclick="edit_receita(<?php echo $receita->rec_id;?>)" data-toggle="tooltip" title="Realizar Pagamento"><i class="glyphicon glyphicon-usd"></i></button>
 									<button class="btn btn-danger" onclick="delete_receita(<?php echo $receita->rec_id;?>)" data-toggle="tooltip" title="Deletar" ><i class="glyphicon glyphicon-remove"></i></button>
 								</td>
 				      </tr>
